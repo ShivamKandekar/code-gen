@@ -228,7 +228,7 @@ const Editors = ({ socketRef, roomId, onCodeChange }) => {
       const url = "https://api.openai.com/v1/chat/completions";
       const headers = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.REACT_APP_KEYOPENAI}`,
+        Authorization: `Bearer -G5fvz60ru7J0JYRln1tpT3BlbkFJxdHsIZGhR8GFO0m98tXG`,
       };
       const data = {
         model: "gpt-3.5-turbo",
@@ -237,21 +237,32 @@ const Editors = ({ socketRef, roomId, onCodeChange }) => {
             role: "user",
             content:
               input.replace("over", "") +
-              " in html. give code only. without backticks. without using code block. if code block having language then also only code",
+              " in html, css, js. give code only. without backticks. without using code block. if code block having language then also only code",
           },
         ],
         temperature: 0.7,
       };
-
+  
       try {
         const response = await axios.post(url, data, { headers });
+        // alert(response);
+
         setResponse(response.data.choices[0].message.content);
         editorRef.current.setValue(response.data.choices[0].message.content);
       } catch (error) {
-        // alert(JSON.stringify(error));
-        console.error(error);
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.error("Server responded with an error:", error.response.data);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error("No response received from the server");
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error setting up the request:", error.message);
+        }
       }
-
+  
       setIsLoading(false);
       setInput("");
       setIsInput("");
@@ -265,6 +276,7 @@ const Editors = ({ socketRef, roomId, onCodeChange }) => {
     event.preventDefault();
     apiCall();
   };
+  
   return (
     <editor>
       <loading id="inin" style={{
