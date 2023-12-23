@@ -31,7 +31,7 @@ const SocialSignIn = () => {
           <section>
             <img
               id="google"
-              src="https://upload.wikimedia.org/wikipedia/commons/archive/5/53/20200429221626%21Google_%22G%22_Logo.svg"
+              src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
               onClick={signIn}
               alt="google"
             />
